@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 const Main = props => {
 
-
-
     const hoverBuddy = {
         cursor: 'pointer'
     }
@@ -24,34 +22,32 @@ const Main = props => {
         borderRadius: '10px'
     }
 
-    class Post {
-        render() {
-            return (
-                <blockquote class="blockquote border p-5">
-                    <div class='row'>
-                        <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                        <div class='col-8'>
-                            <p class="pl-5 mb-0">i need some new garage house recs but like old school larry levin garage not like burial future garage</p>
-                            <footer class="ml-5 blockquote-footer">{props.at}{props.username} on <cite title="Source Title">{this.props.date.toLocaleTimeString()}</cite></footer>
-                        </div>
-                    </div>
-                </blockquote>
-            )
-        }
+    const chirpBuddy = {
+        verticalAlign: 'top',
+        display: 'flex',
+        position: 'relative'
     }
 
-
-
     const [update, setUpdate] = useState('')
-    const [array, setArray] = useState([])
     const [array2, setArray2] = useState('')
-    const [date, setDate] = useState('')
-    const [time, setTime] = useState('')
-    
-
-    useEffect(() => {
-        console.log(update)
-    }, [update])
+    const [array, setArray] = useState([{
+        text: 'we could catch unlimited breadsticks at the all of garden or we could just put a bun in the oven ahaha 👉👈',
+        day: '6/15/2021',
+        time: '01:21pm',
+        id: Math.random()
+    },
+    {
+        text: 'finally got my 99 in firemaking only took 4 years',
+        day: '6/19/2021',
+        time: '12:46am',
+        id: Math.random()
+    },
+    {
+        text: "react honestly isn't that hard it's just chaotic",
+        day: '6/22/2021',
+        time: '09:46am',
+        id: Math.random()
+    }])
 
     const typingPost = (e) => {
         setUpdate(e.target.value)
@@ -66,25 +62,21 @@ const Main = props => {
             id: Math.random()
         };
         setArray([...array, prePost])
-        setDate(prePost.day)
-        setTime(prePost.time)
-        
     }
 
     useEffect(() => {
         setArray2(displayedPosts)
     }, [array])
 
-    
-
     const displayedPosts = array.map(val => {
         return (
-                <blockquote class="blockquote border p-5">
+                <blockquote style={chirpBuddy} class="blockquote border p-5">
                     <div class='row'>
                         <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
                         <div class='col-8'>
+                            <div class='pl-5 lead'>{props.nickName}</div>
                             <p key={`the-array-${val.id}`} class="pl-5 mb-0">{val.text}</p>
-                            <footer class="ml-5 blockquote-footer">{props.at}{props.username} on <cite title="Source Title">{date} at {time}</cite></footer>
+                            <footer class="ml-5 blockquote-footer">{props.at}{props.username} on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
                         </div>
                     </div>
                 </blockquote>
@@ -104,7 +96,6 @@ const Main = props => {
     const hoverEnterImg = () => {
         let postBtn = document.querySelector('#btnImg')
         postBtn.classList.add('text-danger')
-        console.log(displayedPosts)
     }
 
     const hoverLeaveImg = () => {
@@ -115,6 +106,7 @@ const Main = props => {
     const hoverEnterLink = () => {
         let postBtn = document.querySelector('#btnLink')
         postBtn.classList.add('text-danger')
+        console.log(array2)
     }
 
     const hoverLeaveLink = () => {
@@ -162,6 +154,10 @@ const Main = props => {
         postBtn.classList.remove('text-danger')
     }
 
+    useEffect(() => {
+        setTimeout(() => { setArray2(displayedPosts); }, 100)
+    }, [])
+
     return (
         <div>
             <div class='pb-1'>
@@ -183,7 +179,10 @@ const Main = props => {
                                 <a class="nav-link text-white" href="#">Messages</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled text-white" href="#">Notifications</a>
+                                <a class="nav-link text-white" href="#">Notifications</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">Boards</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -212,7 +211,7 @@ const Main = props => {
                         <h1 class='pl-5 display-4'>{props.nickName}'s Timeline</h1>
                     </div>
                 </div>
-                <div class='row d-flex flew-row'>
+                <div class='row d-flex'>
                     <div class='col-2'>
                         <div class=''>
                             <div class='border-right mt-3 lead border-secondary text-right pr-2' id='btnPost' onClick={() => newPost()} style={hoverBuddy} onMouseEnter={() => hoverEnterPost()} onMouseLeave={() => hoverLeavePost()}>Post</div>
@@ -225,7 +224,7 @@ const Main = props => {
                         </div>
                     </div>
                     <div class='col-9'>
-                        <input onChange={e => typingPost(e)} placeholder='' style={textBuddy} class="" type="text" />
+                        <input class='' onChange={e => typingPost(e)} placeholder='' style={textBuddy} type="text" />
                     </div>
                     <div class='col-1'></div>
                 </div>
@@ -263,35 +262,8 @@ const Main = props => {
                             <div class='border-right invisible lead border-secondary text-right pr-2' id='btnLink' style={hoverBuddy} ></div>
                         </div>
                     </div>
-                    <div id='mainbody' class='col-9 offset-2 mt-3 overflow-auto'>
-                        <div>{array2}</div>
-                        <blockquote class="blockquote border p-5">
-                            <div class='row'>
-                                <img class='' style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                                <div class='col-8'>
-                                    <p class="pl-5 mb-0">we could catch unlimited breadsticks at the all of garden or we could just put a bun in the oven ahaha 👉👈</p>
-                                    <footer class="ml-5 blockquote-footer">{props.at}{props.username} on <cite title="Source Title">6/22/2021 at 01:21pm</cite></footer>
-                                </div>
-                            </div>
-                        </blockquote>
-                        <blockquote class="blockquote border p-5">
-                            <div class='row'>
-                                <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                                <div class='col-8'>
-                                    <p class="pl-5 mb-0">finally got my 99 in firemaking only took 4 years</p>
-                                    <footer class="ml-5 blockquote-footer">{props.at}{props.username} on <cite title="Source Title">6/19/2021 at 12:46am</cite></footer>
-                                </div>
-                            </div>
-                        </blockquote>
-                        <blockquote class="blockquote border p-5">
-                            <div class='row'>
-                                <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                                <div class='col-8'>
-                                    <p class="pl-5 mb-0">react honestly isn't that hard it's just chaotic</p>
-                                    <footer class="ml-5 blockquote-footer">{props.at}{props.username} on <cite title="Source Title">6/15/2021 at 09:46am</cite></footer>
-                                </div>
-                            </div>
-                        </blockquote>
+                    <div id='mainbody' class='col-9 d-flex flex-column offset-2 mt-3 overflow-auto'>
+                        <div  class=''>{array2}</div>
                     </div>
                     <div class='col-1 offset-11'></div>
                 </div>

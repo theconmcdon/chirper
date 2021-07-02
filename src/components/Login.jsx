@@ -11,6 +11,10 @@ const Login = () => {
     const [at, setAt] = useState('')
     const [logEffect, setlogEffect] = useState(false)
 
+    const buttonBuddy = {
+        width: '200px'
+    }
+
     useEffect(() => {
         if (nickName.length > 20) {
             setExtra(`Nickname contains ${nickName.length} characters but must be 20 characters or less!`)
@@ -74,7 +78,7 @@ const Login = () => {
                     <h1 class='display-1 text-center text-danger pt-5 mt-5'>Welcome to Chirper!</h1>
                 </div>
                 <div class='row d-flex flex-row pt-5'></div>
-                <div class='row d-flex flew-row justify-content-center'>
+                <div class='row d-flex flex-row justify-content-center'>
                     <div class="form-row align-items-center">
                         <div class="col-sm-4 my-1">
                             <label class="sr-only" for="inlineFormInputName">Name</label>
@@ -89,16 +93,8 @@ const Login = () => {
                                 <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username" value={username} onChange={e => enterName(e)} />
                             </div>
                         </div>
-                        <div class="col-auto my-1">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="autoSizingCheck2" />
-                                <label class="form-check-label" for="autoSizingCheck2">
-                                    Remember
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-auto my-1">
-                            <input type="submit" class="btn btn-danger" onClick={() => clickLogin()} value='Join' />
+                        <div  class="col-4 my-1">
+                            <input style={buttonBuddy} type="submit" class="btn btn-danger" onClick={() => clickLogin()} value='Join' />
                         </div>
                     </div>
                 </div>
